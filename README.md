@@ -25,9 +25,6 @@
 
 이에 구글 시트를 외부 데이터 관리 도구로 사용하고, SO를 런타임 데이터 컨테이너 구조를 설계했습니다. 데이터 수정은 구글 시트에서 유연하게 처리하고, 런타임에서는 안정적인 SO 참조 구조를 유지 하여 메모리 중복을 줄이고 데이터 확장성을 확보했습니다.
 
-![image.png](attachment:beea4f89-033c-4070-aadf-d4179bfaf9c4:image.png)
-
-![image.png](attachment:8ca8ce70-99c1-4a35-b5e0-16a7f841ee58:image.png)
 2) ____Factory 패턴+ ObjectPool :____ <br/>
 # 1. 문제 상황
 
@@ -40,9 +37,6 @@
 ---
 
 # 2. 해결 방안
-
-![image.png](attachment:a140cd6c-893f-4adc-a48b-c33cd64bc9a9:image.png)
-
 ObjectPool, TowerFactory, TowerSpawner 모두 설치 흐름에 관여하지만, 각 클래스의 책임이 섞일 경우 유지보수가 어렵다고 판단했습니다.
 
 Spawner: “설치 요청”
@@ -55,11 +49,7 @@ ObjectPool: “인스턴스 재사용”
 
 ObjectPool은 오브젝트의 재 사용만 담당하고, “어떤 타입의 오브젝트를 어떤 방식으로 생성할 지”에 대한 규칙은 Factory 패턴으로 분리하여 설계 하였습니다.
 
-![image.png](attachment:8bbc2359-d082-4334-8ecb-c2e014197329:image.png)
-
 외부에서는 타워 타입과 위치만 전달하고 Factory 내부에서 타입에 맞는 Pool을 선택하고 인스턴스를 반환함으로써 문제를 해결했습니다.
-
-![image.png](attachment:2be9f5e0-5554-4f05-bda6-f9225b22334d:image.png)
 
 또한 ObjectPool은 제네릭으로 구현해 컴파일 타임에 타입이 보장되어 태그나 캐스팅에 의존하던 방식보다 안정적인 구조를 유지했습니다.
 
